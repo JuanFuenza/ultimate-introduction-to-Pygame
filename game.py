@@ -1,6 +1,6 @@
-from operator import truediv
 import pygame
 from random import randint, choice
+
 
 class Player(pygame.sprite.Sprite):
     def __init__(self):
@@ -15,11 +15,15 @@ class Player(pygame.sprite.Sprite):
         self.image = self.player_walk[self.player_index]
         self.rect = self.image.get_rect(midbottom = (80, 300))
         self.gravity = 0
+
+        self.jump_sound = pygame.mixer.Sound("assets/audio/jump.mp3")
+        self.jump_sound.set_volume(0.05)
     
     def player_input(self):
         keys = pygame.key.get_pressed()
         if keys[pygame.K_SPACE] and self.rect.bottom >= 300:
             self.gravity = -20
+            self.jump_sound.play()
     
     def apply_gravity(self):
         self.gravity += 1
@@ -114,6 +118,10 @@ pygame.display.set_caption("Runner")
 game_active = False
 start_time = 0
 score = 0
+bg_music = pygame.mixer.Sound("assets/audio/music.wav")
+bg_music.set_volume(0.03)
+bg_music.play(loops = -1)
+
 
 # Groups
 player = pygame.sprite.GroupSingle()
@@ -144,12 +152,6 @@ player_stand_rect = player_stand.get_rect(center = (width//2,200))
 # timer
 obstacle_timer = pygame.USEREVENT + 1
 pygame.time.set_timer(obstacle_timer, 1500)
-
-snail_animation_timer = pygame.USEREVENT + 2
-pygame.time.set_timer(snail_animation_timer, 500)
-
-fly_animation_timer = pygame.USEREVENT + 3
-pygame.time.set_timer(fly_animation_timer, 200)
 
 # fps and clock
 FPS = 60
