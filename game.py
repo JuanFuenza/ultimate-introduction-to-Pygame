@@ -160,6 +160,7 @@ while running:
         score_message = test_font.render(f'Your score: {score}', False, (64,64,64))
         score_message_rect = score_message.get_rect(center = (400,320))
         obstacle_rect_list = []
+        player_rect.midbottom = (80, 300)
 
         if score == 0:
             ds.blit(press_space_surf, press_space_rect)
